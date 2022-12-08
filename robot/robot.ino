@@ -68,7 +68,7 @@ void setup() {
   IrReceiver.begin(IR_PIN);
   myservo.attach(servoPin);
 
-randomSeed(analogRead(0));
+  randomSeed(analogRead(0));
   Serial.begin(9600);
   state = STOP;
 }
@@ -219,7 +219,7 @@ DIRECTION checkDirection() {
     return CONTINUE;
   }
 
-  int min = 0;
+  int min = 10000;
   int minindex = 0;
   for (int i = 0; i < 3; i++) {
     if (min > distance[i]) {
@@ -265,16 +265,23 @@ void autoTick() {
       }
     }
   } else {
-    if (dir == GOLEFT || dir == GOFRONT) {
+    if (random(0, 4) != 1) {
       move(511, 511, false, true, true, false);
-      delay(150);
+      delay(550);
       move(0, 0, false, false, false, false);
-      delay(200);
-    } else if (dir == GORIGHT) {
-      move(511, 511, true, false, false, true);
-      delay(150);
-      move(0, 0, false, false, false, false);
-      delay(200);
+      delay(300);
+    } else {
+      if (dir == GOLEFT || dir == GOFRONT) {
+        move(511, 511, true, false, false, true);
+        delay(150);
+        move(0, 0, false, false, false, false);
+        delay(200);
+      } else if (dir == GORIGHT) {
+        move(511, 511, false, true, true, false);
+        delay(150);
+        move(0, 0, false, false, false, false);
+        delay(200);
+      }
     }
   }
 }
