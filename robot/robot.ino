@@ -51,6 +51,7 @@ Servo myservo;
 void autoTick();
 void do_IR_Tick();
 float checkdistance();
+void klaxon();
 void move(int speedL, int speedR, bool FR, bool RR, bool FL, bool RL);
 
 void setup() {
@@ -107,12 +108,7 @@ void loop() {
       delay(80);
       break;
     case KLAXON:
-      for (int i = 0; i < 15; i++) {
-        tone(BuzzerPin, (500));
-        delay(50);  // ...for 1 sec
-        noTone(BuzzerPin);
-        delay(25);
-      }
+      klaxon();
       IrReceiver.begin(IR_PIN);
       state = STOP;
       break;
@@ -246,7 +242,7 @@ void autoTick() {
   DIRECTION dir = checkDirection();
   Serial.println(dir);
   if (dir == CONTINUE) {
-    if (random(0, 8) != 1) {
+    if (random(0, 20) != 1) {
       move(511, 511, true, false, true, false);
       delay(300);
       move(0, 0, false, false, false, false);
@@ -265,7 +261,7 @@ void autoTick() {
       }
     }
   } else {
-    if (random(0, 4) != 1) {
+    if (random(0, 8) == 1) {
       move(511, 511, false, true, true, false);
       delay(550);
       move(0, 0, false, false, false, false);
@@ -284,4 +280,41 @@ void autoTick() {
       }
     }
   }
+}
+
+void klaxon() {
+tone(BuzzerPin, 523);
+      delay(356);
+      noTone(BuzzerPin);
+      delay(89);
+      tone(BuzzerPin, 494);
+      delay(178);
+      noTone(BuzzerPin);
+      tone(BuzzerPin, 698);
+      delay(178);
+      noTone(BuzzerPin);
+      delay(178);
+      tone(BuzzerPin, 698);
+      delay(178);
+      noTone(BuzzerPin);
+      tone(BuzzerPin, 698);
+      delay(178);
+      noTone(BuzzerPin);
+      tone(BuzzerPin, 660);
+      delay(183);
+      noTone(BuzzerPin);
+      tone(BuzzerPin, 587);
+      delay(178);
+      noTone(BuzzerPin);
+      tone(BuzzerPin, 523);
+      delay(178);
+      noTone(BuzzerPin);
+      delay(178);
+      tone(BuzzerPin, 330);
+      delay(178);
+      noTone(BuzzerPin);
+      delay(178);
+      tone(BuzzerPin, 262);
+      delay(178);
+      noTone(BuzzerPin);
 }
